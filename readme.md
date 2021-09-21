@@ -10,11 +10,11 @@ For connector raw data stream were used - see results in [users.txt](./users.txt
 We generate products with such fields (for more info see [create-product.avsc](./schema/create-product.avsc)):
 
 ```
-    name - **str**
-    category - **str**
-    price - **double**
-    barcode - **int**
-    description - **str**
+    name - str
+    category - str
+    price - double
+    barcode - int
+    description - str
 ```
 
 Then create producer and topic **products_raw_data** (see [main.py](./main.py)
