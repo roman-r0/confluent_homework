@@ -1,0 +1,27 @@
+{
+  "namespace": "io.codebrews.createproduct",
+  "type": "record",
+  "name": "CreateProduct",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "category",
+      "type": "string"
+    },
+    {
+      "name": "price",
+      "type": "double"
+    },
+    {
+      "name": "barcode",
+      "type": "int"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    }
+  ]
+}

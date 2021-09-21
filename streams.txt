@@ -1,0 +1,52 @@
+CREATE STREAM user_raw_data_stream (
+    email VARCHAR,
+    first_name VARCHAR,
+    last_name VARCHAR,
+    age INT,
+    address VARCHAR,
+    gender VARCHAR,
+    job VARCHAR,
+    has_children_under_sixteen BOOLEAN
+  ) WITH (
+    KAFKA_TOPIC = 'user_raw_data',
+    VALUE_FORMAT = 'AVRO'
+  );
+
+CREATE STREAM adult_users AS
+    SELECT
+        email,
+        first_name,
+        last_name,
+        age,
+        address,
+        gender,
+        job,
+        has_children_under_sixteen
+    FROM user_raw_data_stream
+    WHERE age >= 18
+    EMIT CHANGES;
+
+
+CREATE STREAM users_potentially_interested_in_buying_toys AS
+    SELECT
+        email,
+        first_name,
+        last_name,
+        age,
+        address,
+        gender,
+        job,
+        has_children_under_sixteen
+    FROM user_raw_data_stream
+    WHERE has_children_under_sixteen = true
+    EMIT CHANGES;
+
+
+CREATE TABLE amount_of_users_by_gender_for_the_last_1_minute AS
+    SELECT
+        gender,
+        COUNT(gender) as count
+    FROM user_raw_data_stream
+    WINDOW TUMBLING (SIZE 1 MINUTE, GRACE PERIOD 2 HOURS)
+    GROUP BY gender
+    EMIT CHANGES;
